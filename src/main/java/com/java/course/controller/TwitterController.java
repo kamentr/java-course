@@ -27,7 +27,7 @@ public class TwitterController {
     public TwitterUser getUser(String username) {
         String url = "https://twitter-v24.p.rapidapi.com/user/details?username=" + username;
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-RapidAPI-Key", "38d47a0db9msh4a68fc8042f3636p13fac6jsn9d0695e7667b");
+        headers.set("X-RapidAPI-Key", "");
         headers.set("X-RapidAPI-Host", "twitter-v24.p.rapidapi.com");
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
