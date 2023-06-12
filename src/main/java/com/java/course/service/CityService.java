@@ -30,6 +30,7 @@ public class CityService {
         }
 
         return cities.stream()
+                // TODO Fix this filter
 //                .filter(city -> city.capital.equals("primary"))
                 .map(City::name)
                 .toList();
