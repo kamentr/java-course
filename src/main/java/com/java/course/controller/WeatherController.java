@@ -1,9 +1,9 @@
 package com.java.course.controller;
 
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.Date;
 
-import com.java.course.client.HistoricalWeatherClient;
-import com.java.course.model.WeatherResponse;
+import com.java.course.service.WeatherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,20 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/weather")
 public class WeatherController {
 
+    private final WeatherService weatherService;
 
-    private final HistoricalWeatherClient historicalWeatherClient;
-
-    public WeatherController(HistoricalWeatherClient historicalWeatherClient) {
-        this.historicalWeatherClient = historicalWeatherClient;
+    public WeatherController(WeatherService weatherService) {
+        this.weatherService = weatherService;
     }
 
     @GetMapping
-    public double getWeather(@RequestParam("lat") float latitude, @RequestParam("lon") float longitude) {
-        final WeatherResponse weather = historicalWeatherClient.getWeather(latitude, longitude);
-        return weather.getTemperatures().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(x -> x)
-                .average()
-                .orElse(0);
+    public double getWeather(@RequestParam("lat") float latitude, @RequestParam("lon") float longitude, @RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate) {
+        return weatherService.getAverageWeather(latitude, longitude, startDate, endDate);
     }
 }
