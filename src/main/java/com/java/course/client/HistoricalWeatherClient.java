@@ -25,6 +25,5 @@ public class HistoricalWeatherClient {
 
     private String formatDate(LocalDate date) {
         return date.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-//        return date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth();
     }
 }
