@@ -1,17 +1,17 @@
 package com.java.course.service;
 
+import com.java.course.client.GeocodingClient;
+import com.java.course.client.HistoricalWeatherClient;
+import com.java.course.model.Coordinates;
+import com.java.course.model.WeatherResponse;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.java.course.client.GeocodingClient;
-import com.java.course.client.HistoricalWeatherClient;
-import com.java.course.model.Coordinates;
-import com.java.course.model.WeatherResponse;
-import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherService {
@@ -54,18 +54,20 @@ public class WeatherService {
         LocalDate startDate = LocalDate.of(startYear, 1, 1);
         LocalDate endDate = LocalDate.of(endYear, 1, 1);
 
-        yearlyAverageTemps.add(getAverageWeather(coordinates.getLatitude(), coordinates.getLongitude(), startDate, endDate));
-        startYear++;
-        endYear++;
-        yearlyAverageTemps.add(getAverageWeather(coordinates.getLatitude(), coordinates.getLongitude(), startDate, endDate));
+
+       while (endDate.getYear()<=2022){
+           yearlyAverageTemps.add(getAverageWeather(coordinates.getLatitude(), coordinates.getLongitude(), startDate, endDate));
+           endDate = endDate.plusYears(1);
+           startDate = startDate.plusYears(1);
+        }
 
         return yearlyAverageTemps;
     }
 
-    public List<Double> getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
+    public List<List<Double>> getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
         final List<CityService.City> allCapitals = cityService.getAllCapitolCities();
         return allCapitals.stream()
-                .map(city -> getHistoricalWeatherDataForLocation(city.name()).get(0))
+                .map(city -> getHistoricalWeatherDataForLocation(city.name()))
                 .toList();
     }
 }

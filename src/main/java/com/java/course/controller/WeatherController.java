@@ -1,18 +1,14 @@
 package com.java.course.controller;
 
+import com.java.course.model.Coordinates;
+import com.java.course.service.CityService;
+import com.java.course.service.WeatherService;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
-
-import com.java.course.model.Coordinates;
-import com.java.course.service.CityService;
-import com.java.course.service.WeatherService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/weather")
@@ -42,7 +38,7 @@ public class WeatherController {
     }
 
     @GetMapping("/archive")
-    public List<Double> getHistoricalData() throws IOException, URISyntaxException {
+    public List<List<Double>> getHistoricalData() throws IOException, URISyntaxException {
         return weatherService.getHistoricalWeatherDataForAllCountries();
     }
 
