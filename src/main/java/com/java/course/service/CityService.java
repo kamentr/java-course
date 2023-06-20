@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.sun.tools.javac.Main;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CityService {
 
-    public List<String> getAllCapitolCities() throws IOException, URISyntaxException {
+    public List<City> getAllCapitolCities() throws IOException, URISyntaxException {
         List<City> cities = new ArrayList<>();
         Path path = Paths.get(Main.class.getClassLoader().getResource("cities/worldcities.csv").toURI());
 
@@ -26,53 +25,17 @@ public class CityService {
                 continue;
             }
             String name = values[0];
-            String capitol = values[8];
-            cities.add(new City(name, capitol));
+            String capital = values[8];
+            String country = values[4];
+            cities.add(new City(name, capital, country));
         }
 
         return cities.stream()
                 .filter(city -> city.capital().equals("primary"))
-                .map(City::name)
+                .limit(1) // Limit because of API limitations
                 .toList();
     }
 
-    private static final class City {
-        private final String name;
-        private final String capital;
-
-        private City(String name, String capital) {
-            this.name = name;
-            this.capital = capital;
-        }
-
-        public String name() {
-            return name;
-        }
-
-        public String capital() {
-            return capital;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) return true;
-            if (obj == null || obj.getClass() != this.getClass()) return false;
-            var that = (City) obj;
-            return Objects.equals(this.name, that.name) &&
-                    Objects.equals(this.capital, that.capital);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name, capital);
-        }
-
-        @Override
-        public String toString() {
-            return "City[" +
-                    "name=" + name + ", " +
-                    "capital=" + capital + ']';
-        }
-
-        }
+    public record City(String name, String capital, String country) {
+    }
 }

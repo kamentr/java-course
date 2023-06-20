@@ -14,8 +14,15 @@ public class WeatherResponse {
     @JsonProperty("hourly")
     private Hourly hourly;
 
-    public List<Float> getTemperatures() {
+    @JsonProperty("daily")
+    private Daily daily;
+
+    public List<Float> getHourlyTemperatures() {
         return hourly.temperatures;
+    }
+
+    public List<Float> getDailyTemperatures() {
+        return daily.temperatures;
     }
 
     private static class Hourly {
@@ -26,6 +33,18 @@ public class WeatherResponse {
         }
 
         private Hourly(List<Float> temperatures) {
+            this.temperatures = temperatures;
+        }
+    }
+
+    private static class Daily {
+        @JsonProperty("temperature_2m_max")
+        private List<Float> temperatures;
+
+        public Daily() {
+        }
+
+        public Daily(List<Float> temperatures) {
             this.temperatures = temperatures;
         }
     }

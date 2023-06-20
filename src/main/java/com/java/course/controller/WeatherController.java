@@ -27,8 +27,13 @@ public class WeatherController {
     }
 
     @GetMapping
-    public double getWeather(@RequestParam("lat") float latitude, @RequestParam("lon") float longitude, @RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate) {
+    public double getWeatherByCoordinates(@RequestParam("lat") float latitude, @RequestParam("lon") float longitude, @RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate) {
         return weatherService.getAverageWeather(latitude, longitude, startDate, endDate);
+    }
+
+    @GetMapping("/{location}")
+    public double getWeatherByLocationName(@RequestParam("date") LocalDate date, @PathVariable String location) {
+        return weatherService.getAverageWeatherByLocation(location, date);
     }
 
     @GetMapping("/coordinates/{location}")
@@ -36,8 +41,13 @@ public class WeatherController {
         return weatherService.getCoordinates(location);
     }
 
+    @GetMapping("/archive")
+    public List<Double> getHistoricalData() throws IOException, URISyntaxException {
+        return weatherService.getHistoricalWeatherDataForAllCountries();
+    }
+
     @GetMapping("/cities")
-    public List<String> getCapitalCites() throws IOException, URISyntaxException {
+    public List<CityService.City> getCapitalCites() throws IOException, URISyntaxException {
         return cityService.getAllCapitolCities();
     }
 }

@@ -17,10 +17,10 @@ public class HistoricalWeatherClient {
     public WeatherResponse getWeather(double latitude, double longitude, LocalDate startDate, LocalDate endDate) {
         String startDateString = formatDate(startDate);
         String endDateString = formatDate(endDate);
-        String weatherUrl = "https://archive-api.open-meteo.com/v1/archive?latitude=" + latitude + "&longitude=" + longitude + "&start_date=" + startDateString + "&end_date=" + endDateString + "&hourly=temperature_2m";
+        String weatherUrl = "https://archive-api.open-meteo.com/v1/archive?latitude=" + latitude + "&longitude=" + longitude + "&start_date=" + startDateString + "&end_date=" + endDateString + "&daily=temperature_2m_max&timezone=GMT";
         ResponseEntity<WeatherResponse> response = restTemplate.getForEntity(weatherUrl, WeatherResponse.class);
 
-        return response.getBody();
+            return response.getBody();
     }
 
     private String formatDate(LocalDate date) {
