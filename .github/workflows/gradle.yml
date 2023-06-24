@@ -44,7 +44,7 @@ jobs:
       - name: Test
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
-          arguments: test jacocoTestReport
+          arguments: test
           gradle-version: 7.6.1
 
   test-coverage:
@@ -57,6 +57,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Test with coverage
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: test jacocoTestReport
+          gradle-version: 7.6.1
       - name: Download JaCoCo Report
         uses: actions/download-artifact@v2
         with:
