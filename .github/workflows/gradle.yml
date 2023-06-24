@@ -61,7 +61,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jacoco-report
-          path: ${{ github.workspace }}/jacoco-report
+          path: ${{ github.workspace }}/build/jacoco-report
       - name: Check Code Coverage Percentage
         run: |
           COVERAGE=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@covered)' ${{ github.workspace }}/jacoco-report/jacocoTestReport.xml)
