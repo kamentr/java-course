@@ -44,8 +44,13 @@ jobs:
       - name: Test
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
-          arguments: test
+          arguments: test jacocoTestReport
           gradle-version: 7.6.1
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v2
+        with:
+          name: jacoco-report
+          path: ${{ github.workspace }}/jacoco-report
 
   test-coverage:
     runs-on: ubuntu-latest
@@ -57,16 +62,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Test with coverage
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-        with:
-          arguments: test jacocoTestReport
-          gradle-version: 7.6.1
       - name: Download JaCoCo Report
         uses: actions/download-artifact@v2
         with:
           name: jacoco-report
-          path: ${{ github.workspace }}/build/jacoco-report
+          path: ${{ github.workspace }}/jacoco-report
       - name: Check Code Coverage Percentage
         run: |
           COVERAGE=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@covered)' ${{ github.workspace }}/jacoco-report/jacocoTestReport.xml)
