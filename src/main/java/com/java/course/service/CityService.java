@@ -8,15 +8,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.java.course.model.City;
 import com.sun.tools.javac.Main;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CityService {
 
+    private static final String CITIES_PATH = "cities/worldcities.csv";
+
     public List<City> getAllCapitolCities() throws IOException, URISyntaxException {
         List<City> cities = new ArrayList<>();
-        Path path = Paths.get(Main.class.getClassLoader().getResource("cities/worldcities.csv").toURI());
+        Path path = Paths.get(Main.class.getClassLoader().getResource(CITIES_PATH).toURI());
 
         List<String> lines = Files.readAllLines(path);
         for (String line : lines) {
@@ -34,8 +37,5 @@ public class CityService {
                 .filter(city -> city.capital().equals("primary"))
                 .limit(1) // Limit because of API limitations
                 .toList();
-    }
-
-    public record City(String name, String capital, String country) {
     }
 }

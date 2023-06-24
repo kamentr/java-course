@@ -1,10 +1,9 @@
 package com.java.course.client;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.java.course.model.Coordinates;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,13 +17,14 @@ public class GeocodingClient {
         String url = "https://geocoding-api.open-meteo.com/v1/search?name=" + locationName + "&count=1";
 
         final ResponseEntity<GeocodingResponse> response = restTemplate.getForEntity(url, GeocodingResponse.class);
-        return response.getBody().getResults().get(0);
+
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new IllegalStateException(String.format("Failed to obtain coordinates of %s with status code: %s and message: %s", locationName, response.getStatusCode(), response.getBody()));
+        }
+
+        return Objects.requireNonNull(response.getBody()).results().get(0);
     }
 
-
-    @Getter
-    @NoArgsConstructor
-    private static class GeocodingResponse {
-        private List<Coordinates> results;
+    private record GeocodingResponse(List<Coordinates> results) {
     }
 }
