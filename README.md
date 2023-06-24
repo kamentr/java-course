@@ -1,3 +1,5 @@
+![Last Workflow](https://github.com/kamentr/java-course/actions/workflows/gradle.yml/badge.svg)
+
 # Weather & Climate API
 
 API for retrieving weather and climate data for the last 60 years. 
