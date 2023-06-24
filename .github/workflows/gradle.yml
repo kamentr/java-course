@@ -41,5 +41,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Tests
-        run: ./gradlew test
+      - name: Test
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: test
+          gradle-version: 7.6.1
