@@ -51,13 +51,8 @@ jobs:
         with:
           name: jacoco-report
           path: ${{ github.workspace }}/jacoco-report
-
-  test-coverage:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: JaCoCo Report PR
+      - name: Test Coverage PR
         uses: Andreea-Marcu/jacoco-report@v1.3.3
         with:
-          paths: '/home/runner/work/java-course/jacoco-report'
+          paths: ${{ github.workspace }}/jacoco-report
           token: ${{ secrets.REPO_KEY }}
