@@ -59,5 +59,5 @@ jobs:
       - name: JaCoCo Report PR
         uses: Andreea-Marcu/jacoco-report@v1.3.3
         with:
-          paths: ${{ github.workspace }}/build/jacoco-report
+          paths: ${{ github.workspace }}/jacoco-report
           token: ${{ secrets.REPO_KEY }}
