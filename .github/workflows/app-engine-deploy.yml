@@ -1,0 +1,24 @@
+name: Deploy to App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Deploy to App Engine
+        uses: GoogleCloudPlatform/github-actions/appengine-deploy@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          credentials: ${{ secrets.GCP_SA_KEY }}
