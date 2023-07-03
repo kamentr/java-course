@@ -12,6 +12,10 @@ public record WeatherResponse(Hourly hourly, Daily daily) {
     public List<Float> getDailyTemperatures() {
         return daily.temperatures();
     }
+
+    public List<LocalDate> getTime() {
+        return daily.time();
+    }
 }
 
 record Hourly(@JsonProperty("temperature_2m") List<Float> temperatures) {
