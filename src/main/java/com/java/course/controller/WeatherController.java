@@ -37,4 +37,9 @@ public class WeatherController {
     public List<List<Double>> getHistoricalData() throws IOException, URISyntaxException {
         return weatherService.getHistoricalWeatherDataForAllCountries();
     }
+
+    @GetMapping("/archive/location/{location}/month/{monthNumber}")
+    public List<Double> getHistoricalDataPerMonth(@PathVariable String monthNumber, @PathVariable String location) throws IOException, URISyntaxException {
+        return weatherService.getHistoricalWeatherDataPerMonth(monthNumber, location);
+    }
 }
