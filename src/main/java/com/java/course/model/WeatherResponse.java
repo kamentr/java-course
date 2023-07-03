@@ -1,5 +1,6 @@
 package com.java.course.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,5 +17,5 @@ public record WeatherResponse(Hourly hourly, Daily daily) {
 record Hourly(@JsonProperty("temperature_2m") List<Float> temperatures) {
 }
 
-record Daily(@JsonProperty("temperature_2m_max") List<Float> temperatures) {
+record Daily(@JsonProperty("temperature_2m_max") List<Float> temperatures, List<LocalDate> time) {
 }
