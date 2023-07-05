@@ -10,4 +10,4 @@ runtime: java17
 #  instances: 1
 #service_account: climate-api-390915@appspot.gserviceaccount.com
 #
-#entrypoint: java -jar course-0.0.1-SNAPSHOT.jar
+entrypoint: java -jar course-0.0.1-SNAPSHOT.jar
