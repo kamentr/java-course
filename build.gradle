@@ -33,6 +33,7 @@ appengine {
 
 jar {
     enabled = false
+    archiveClassifier = ''
 }
 configurations {
     compileOnly {
