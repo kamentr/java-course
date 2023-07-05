@@ -14,5 +14,9 @@ jobs:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v0.5.0"
+        with:
+          working-directory: "../.."
+          deliverables: "src/main/appengine"
+
       - id: "test"
         run: 'curl "${{ steps.deploy.outputs.url }}"'
