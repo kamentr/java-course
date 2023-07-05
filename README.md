@@ -7,3 +7,6 @@ Create charts and tables with city or country average temperatures over the year
 This project aims to provide visual representation of Climate change. 
 
 [Tasks Board](https://github.com/users/kamentr/projects/1/views/1)
+
+# Deployment
+Run ```gcloud app deploy --promote``` in root directory to deploy to Google Cloud

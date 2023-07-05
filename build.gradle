@@ -1,10 +1,10 @@
-buildscript {    // Configuration for building
+buildscript {
     repositories {
-        jcenter()    // Bintray's repository - a fast Maven Central mirror & more
+        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.5' // If a newer version is available, use it
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.5'
     }
 }
 
@@ -14,6 +14,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
     id 'jacoco'
 }
+
 apply plugin: 'com.google.cloud.tools.appengine'
 
 group = 'com.java'
@@ -23,10 +24,16 @@ sourceCompatibility = '17'
 appengine {
     deploy {
         projectId = "climate-api-390915"
-        version = "2"
+        version = "3"
+    }
+    stage {
+        artifact = "build/libs/course-0.0.1-SNAPSHOT.jar"
     }
 }
 
+jar {
+    enabled = false
+}
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -63,13 +70,5 @@ jacocoTestReport {
         csv.required = false
         xml.outputLocation = file("jacoco-report")
         html.outputLocation = file("jacoco-report-html")
-    }
-}
-
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'com/java/course/FundamentalsApplication'
-        )
     }
 }
