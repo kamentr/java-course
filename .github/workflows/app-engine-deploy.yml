@@ -15,9 +15,7 @@ jobs:
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v0.5.0"
         with:
-          working_directory: "../../.."
-          working-directory: "../../.."
-          deliverables: "src/main/appengine"
+          deliverables: "../../src/main/appengine"
 
       - id: "test"
         run: 'curl "${{ steps.deploy.outputs.url }}"'
