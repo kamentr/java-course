@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.java.course.client.HistoricalWeatherClient;
+import com.java.course.model.AverageTempYear;
 import com.java.course.model.City;
 import com.java.course.model.Coordinates;
 import com.java.course.model.WeatherResponse;
@@ -42,15 +43,15 @@ public class WeatherService {
         return getAverageWeather(coordinates.latitude(), coordinates.longitude(), date, date);
     }
 
-    public List<List<Double>> getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
+    public List<List<AverageTempYear>> getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
         final List<City> allCapitals = cityService.getAllCapitolCities();
         return allCapitals.stream()
                 .map(city -> getHistoricalWeatherDataForLocation(city.name()))
                 .toList();
     }
 
-    private List<Double> getHistoricalWeatherDataForLocation(String location) {
-        List<Double> yearlyAverageTemps = new ArrayList<>();
+    public List<AverageTempYear> getHistoricalWeatherDataForLocation(String location) {
+        var yearlyAverageTemps = new ArrayList<AverageTempYear>();
         final Coordinates coordinates = locationService.getCoordinates(location);
 
         int startYear = 1941;
@@ -61,7 +62,8 @@ public class WeatherService {
 
 
         while (endDate.getYear() <= 2022) {
-            yearlyAverageTemps.add(getAverageWeather(coordinates.latitude(), coordinates.longitude(), startDate, endDate));
+            final double averageTemp = getAverageWeather(coordinates.latitude(), coordinates.longitude(), startDate, endDate);
+            yearlyAverageTemps.add(new AverageTempYear(String.valueOf(startDate.getYear()), averageTemp));
             endDate = endDate.plusYears(1);
             startDate = startDate.plusYears(1);
         }

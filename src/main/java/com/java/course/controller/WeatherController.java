@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.java.course.model.AverageTempYear;
 import com.java.course.service.WeatherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +35,13 @@ public class WeatherController {
 
 
     @GetMapping("/archive")
-    public List<List<Double>> getHistoricalData() throws IOException, URISyntaxException {
+    public List<List<AverageTempYear>> getHistoricalData() throws IOException, URISyntaxException {
         return weatherService.getHistoricalWeatherDataForAllCountries();
+    }
+
+    @GetMapping("/archive/{location}")
+    public List<AverageTempYear> getHistoricalData(@PathVariable String location) {
+        return weatherService.getHistoricalWeatherDataForLocation(location);
     }
 
     @GetMapping("/archive/location/{location}/month/{monthNumber}")
