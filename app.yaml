@@ -1,0 +1,12 @@
+runtime: java17
+#env: standard
+#instance_class: B2
+#handlers:
+#  - url: /.*
+#    script: 'this field is required, but ignored'
+#  - url: .*
+#    script: auto
+#manual_scaling:
+#  instances: 1
+#service_account: climate-api-390915@appspot.gserviceaccount.com
+#
