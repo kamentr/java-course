@@ -16,6 +16,7 @@ jobs:
         uses: "google-github-actions/deploy-appengine@v0.5.0"
         with:
           working_directory: "../.."
+          working-directory: "../.."
           deliverables: "src/main/appengine"
 
       - id: "test"
