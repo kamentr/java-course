@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.java.course.model.AverageTempYear;
 import com.java.course.service.WeatherService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,8 @@ public class WeatherController {
     }
 
     @GetMapping
-    public double getWeatherByCoordinates(@RequestParam("lat") float latitude, @RequestParam("lon") float longitude, @RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate) {
+    @Operation(summary = "Get weather by coords")
+    public double getWeatherByCoordinates(@RequestParam("lat") @Parameter(description = "latitude of the requested location")   float latitude, @RequestParam("lon") float longitude, @RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate) {
         return weatherService.getAverageWeather(latitude, longitude, startDate, endDate);
     }
 
