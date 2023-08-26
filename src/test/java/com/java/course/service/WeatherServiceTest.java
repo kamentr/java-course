@@ -35,6 +35,23 @@ class WeatherServiceTest {
         MockitoAnnotations.openMocks(this);
         weatherService = new WeatherService(weatherClient, locationService, cityService);
     }
+@Test
+void getAverageWeatherByLocation_whenValidParams_willInvokeLocationService(){
+    float lat = 1;
+    float lon = 2;
+    LocalDate startDate = LocalDate.now();
+    String location = "plovdiv";
+    Hourly hourly = new Hourly(List.of(10f, 12f, 13f));
+    Daily daily = new Daily(List.of(10f, 12f), List.of(LocalDate.now(), LocalDate.now()));
+    WeatherResponse response = new WeatherResponse(hourly, daily);
+    Coordinates coordinate = new Coordinates(lat,lon);
+    when(weatherClient.getWeather(lat, lon, startDate, startDate)).thenReturn(response);
+    when(locationService.getCoordinates(location)).thenReturn(coordinate);
+    double averageWeatherByLocation = weatherService.getAverageWeatherByLocation(location, startDate );
+    verify(locationService, times(1)).getCoordinates(location);
+    assertThat(averageWeatherByLocation).isNotNull();
+    assertThat(averageWeatherByLocation).isEqualTo(11);
+}
 
     @Test
     void getAverageWeather_whenInvalidStartDate_shouldFail() {
