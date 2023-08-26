@@ -1,12 +1,16 @@
-FROM openjdk:17-jdk-alpine3.14
+# Build stage
+FROM openjdk:17-jdk-alpine3.14 AS build
 
 WORKDIR /app
 
 COPY build.gradle gradlew ./
 COPY gradle ./gradle
-RUN ./gradlew --version
 
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
-CMD ["java", "-jar", "build/libs/*.jar"]
+# Run stage
+FROM eclipse-temurin:17-jre-alpine
+COPY --from=build /app/build/libs/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]

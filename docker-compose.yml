@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=localdev
+      - POSTGRES_PASSWORD=localdev
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  climate-api:
+    image: climate-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://postgres-db:5432/postgres
+    depends_on:
+      - database

@@ -1,22 +1,21 @@
 package com.java.course.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDate;
-import java.util.List;
-
 import com.java.course.client.HistoricalWeatherClient;
-import com.java.course.model.Coordinates;
-import com.java.course.model.Daily;
-import com.java.course.model.Hourly;
-import com.java.course.model.WeatherResponse;
+import com.java.course.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.*;
 
 class WeatherServiceTest {
 
@@ -77,6 +76,24 @@ void getAverageWeatherByLocation_whenValidParams_willInvokeLocationService(){
     }
 
     @Test
-    void getHistoricalWeatherDataForAllCountries() {
+    void getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
+      weatherService.getHistoricalWeatherDataForAllCountries();
+      verify(cityService, times(1)).getAllCapitolCities();
+    }
+
+    @Test
+    void getHistoricalWeatherDataForAllCountrie2() throws IOException, URISyntaxException {
+        List<City> cities = List.of(new City("Sofia", "Sofia", "Bulgaria"));
+        when(cityService.getAllCapitolCities()).thenReturn(cities);
+        Coordinates coords = new Coordinates(10,11);
+        when(locationService.getCoordinates("Sofia")).thenReturn(coords);
+        Hourly hourly = new Hourly(List.of(10f, 12f, 13f));
+        Daily daily = new Daily(List.of(10f, 12f), List.of(LocalDate.now(), LocalDate.now()));
+        WeatherResponse response = new WeatherResponse(hourly, daily);
+        when(weatherClient.getWeather(anyDouble(), anyDouble(), any(), any())).thenReturn(response);
+
+        List<List<AverageTempYear>> actualResult = weatherService.getHistoricalWeatherDataForAllCountries();
+
+        assertThat(actualResult.size()).isGreaterThan(0);
     }
 }
