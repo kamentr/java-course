@@ -10,3 +10,7 @@ runtime: java17
 #  instances: 1
 #service_account: climate-api-390915@appspot.gserviceaccount.com
 #
+env_variables:
+  DB_USER: $DB_USER
+  DB_PASS: $DB_PASS
+  DB_URL: $DB_URL
