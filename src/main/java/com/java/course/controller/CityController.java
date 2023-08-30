@@ -2,10 +2,11 @@ package com.java.course.controller;
 
 import com.java.course.model.City;
 import com.java.course.service.CityService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/city")
@@ -21,5 +22,10 @@ public class CityController {
     @RequestMapping(produces = "application/json", consumes = "application/json")
     public City save(@RequestBody City city) {
         return cityService.save(city);
+    }
+
+    @GetMapping("/sync")
+    public ResponseEntity<Object> sync() throws IOException, URISyntaxException { cityService.sync();
+        return ResponseEntity.ok().build();
     }
 }

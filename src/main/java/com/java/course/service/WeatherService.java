@@ -46,7 +46,7 @@ public class WeatherService {
     public List<List<AverageTempYear>> getHistoricalWeatherDataForAllCountries() throws IOException, URISyntaxException {
         final List<City> allCapitals = cityService.getAllCapitolCities();
         return allCapitals.stream()
-                .map(city -> getHistoricalWeatherDataForLocation(city.name()))
+                .map(city -> getHistoricalWeatherDataForLocation(city.getName()))
                 .toList();
     }
 

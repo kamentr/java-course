@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.java.course.model.City;
 import com.java.course.repository.CityRepository;
@@ -33,19 +34,32 @@ public class CityService {
             if (values[0].equals("city")) {
                 continue;
             }
-            String name = values[0];
-            String capital = values[8];
+            String name = values[1];
+            Boolean capital = Boolean.valueOf(values[8]);
             String country = values[4];
-            cities.add(new City(name, capital, country));
+            Double lat = Double.valueOf(values[2]);
+            Double lon = Double.valueOf(values[3]);
+            Integer population = Integer.valueOf(values[values.length-1]);
+
+
+
+            cities.add(new City(null,name, capital, country, lat, lon, population));
         }
 
         return cities.stream()
-                .filter(city -> city.capital().equals("primary"))
+                .filter(city -> city.getCapital().equals("primary"))
                 .limit(1) // Limit because of API limitations
                 .toList();
     }
 
     public City save(City cityToSave) {
         return cityRepository.save(cityToSave);
+    }
+
+    public void sync () throws IOException, URISyntaxException {
+        List<City> allCapitolCities = getAllCapitolCities();
+        List<City> Cities1000 = allCapitolCities.stream().limit(1000).collect(Collectors.toList());
+        cityRepository.saveAll(Cities1000);
+
     }
 }
