@@ -3,6 +3,7 @@ package com.java.course.model;
 
 import java.util.Objects;
 
+import com.java.course.dto.CityDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,10 @@ public class City {
 
     public City() {
 
+    }
+
+    public static City toDto(CityDto cityToSave) {
+        return new City(cityToSave.name(), cityToSave.capital(), cityToSave.country());
     }
 
     public String name() {

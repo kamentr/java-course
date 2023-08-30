@@ -1,5 +1,6 @@
 package com.java.course.controller;
 
+import com.java.course.dto.CityDto;
 import com.java.course.model.City;
 import com.java.course.service.CityService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class CityController {
 
     @PostMapping
     @RequestMapping(produces = "application/json", consumes = "application/json")
-    public City save(@RequestBody City city) {
+    public City save(@RequestBody CityDto city) {
         return cityService.save(city);
     }
 }

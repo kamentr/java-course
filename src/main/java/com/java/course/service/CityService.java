@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.java.course.dto.CityDto;
 import com.java.course.model.City;
 import com.java.course.repository.CityRepository;
 import com.sun.tools.javac.Main;
@@ -45,7 +46,8 @@ public class CityService {
                 .toList();
     }
 
-    public City save(City cityToSave) {
-        return cityRepository.save(cityToSave);
+    public City save(CityDto cityToSave) {
+        City city = City.toDto(cityToSave);
+        return cityRepository.save(city);
     }
 }

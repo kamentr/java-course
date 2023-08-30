@@ -11,6 +11,8 @@ This project aims to provide visual representation of Climate change.
 # Deployment
 
 Run ```App Engine``` workflow to deploy to https://climate-api-390915.lm.r.appspot.com/
+`gcloud app deploy --quiet app.yaml --promote
+`
 
 # Documentation
 
